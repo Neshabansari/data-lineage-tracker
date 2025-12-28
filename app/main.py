@@ -1,20 +1,10 @@
-from etl.etl_script import run_etl
 from fastapi import FastAPI, Depends
 from sqlalchemy.orm import Session
-from typing import List
 
-from app.database import engine, SessionLocal
-from app.models import Base, Lineage
-
-
-# Create tables
-Base.metadata.create_all(bind=engine)
+from app.database import SessionLocal
+from app.models import Lineage
 
 app = FastAPI(title="Data Lineage Tracker")
-@app.on_event("startup")
-def startup_event():
-    run_etl()
-
 
 # Database session
 def get_db():
@@ -24,7 +14,6 @@ def get_db():
     finally:
         db.close()
 
-# STEP 6: API to get lineage
 @app.get("/lineage/{dataset_id}")
 def get_lineage(dataset_id: str, db: Session = Depends(get_db)):
     records = (

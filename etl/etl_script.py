@@ -38,3 +38,10 @@ log_lineage("sales_v3", "sales.csv", "Filtered data for year 2024")
 # STEP 4: Load - save final dataset
 df.to_csv("data/final_sales.csv", index=False)
 log_lineage("sales_final", "sales.csv", "Saved cleaned dataset")
+
+def run_etl():
+    log_lineage("sales_v1", "sales.csv", "Loaded raw data")
+    log_lineage("sales_v2", "sales.csv", "Removed null values")
+    log_lineage("sales_v3", "sales.csv", "Filtered data for year 2024")
+    log_lineage("sales_final", "sales.csv", "Saved cleaned dataset")
+
