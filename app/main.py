@@ -1,3 +1,4 @@
+from etl.etl_script import run_etl
 from fastapi import FastAPI, Depends
 from sqlalchemy.orm import Session
 from typing import List
@@ -10,6 +11,10 @@ from app.models import Base, Lineage
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Data Lineage Tracker")
+@app.on_event("startup")
+def startup_event():
+    run_etl()
+
 
 # Database session
 def get_db():
